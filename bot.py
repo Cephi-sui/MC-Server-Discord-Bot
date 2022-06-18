@@ -5,7 +5,7 @@ import re
 import discord
 from discord.ext import commands
 
-TOKEN = 'OTgwNDIyMTUxNTM2NTEzMDg0.GCCwMJ.3B2lI52XdvQNfGO6VzSyZUMmjSi4KveL16fAf8'
+TOKEN = ''
 
 bot = commands.Bot(command_prefix = '/')
 server_proc = None
@@ -74,8 +74,8 @@ async def log_reader(ctx):
     global server_running
     global log_search
     global command_ctx
-    channel = bot.get_channel(981284930241826828)
-    admin_channel = bot.get_channel(981745041003413524)
+    channel = bot.get_channel()
+    admin_channel = bot.get_channel()
     
     while server_running is True:
         try:
@@ -125,7 +125,7 @@ async def server_list(ctx):
 async def server_admin(ctx):
     global server_proc
     global server_running
-    admin_channel = bot.get_channel(981745041003413524)
+    admin_channel = bot.get_channel()
 
     if ctx.channel.id == admin_channel.id:
         if server_running is False:
