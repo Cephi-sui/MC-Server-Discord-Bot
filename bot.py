@@ -7,7 +7,7 @@ from discord.ext import commands
 
 TOKEN = ''
 
-#An arbitrary change for testing
+#An arbitrary change
 
 bot = commands.Bot(command_prefix = '/')
 server_proc = None
