@@ -4,16 +4,24 @@ import asyncio
 import re
 import discord
 from discord.ext import commands
+from dotenv import load_dotenv
 
-TOKEN = ''
+load_dotenv()
 
-#An arbitrary change
+TOKEN = os.environ.get('TOKEN')
+MSG_CHANNEL = 981284930241826828
+ADMIN_CHANNEL = 981745041003413524
 
 bot = commands.Bot(command_prefix = '/')
 server_proc = None
 server_running = False
 log_search = -1
 command_ctx = None
+
+def start_bot():
+    global TOKEN
+    
+    bot.run(TOKEN)
 
 @bot.event
 async def on_ready():
@@ -50,6 +58,7 @@ async def server_start(ctx):
         await ctx.send("Starting server now...")
 
         try:
+            os.chdir("E:\\Cephi\'s Minecolonies Server")
             server_proc = await asyncio.create_subprocess_exec('run.bat',
                 stdin = asyncio.subprocess.PIPE, stdout = asyncio.subprocess.PIPE)
         except BaseException:
@@ -76,8 +85,8 @@ async def log_reader(ctx):
     global server_running
     global log_search
     global command_ctx
-    channel = bot.get_channel()
-    admin_channel = bot.get_channel()
+    channel = bot.get_channel(MSG_CHANNEL)
+    admin_channel = bot.get_channel(ADMIN_CHANNEL)
     
     while server_running is True:
         try:
@@ -127,7 +136,7 @@ async def server_list(ctx):
 async def server_admin(ctx):
     global server_proc
     global server_running
-    admin_channel = bot.get_channel()
+    admin_channel = bot.get_channel(ADMIN_CHANNEL)
 
     if ctx.channel.id == admin_channel.id:
         if server_running is False:
@@ -163,5 +172,3 @@ async def server_stop(ctx):
         await ctx.send("Server stopped.")
 
         server_running = False
-
-bot.run(TOKEN)
